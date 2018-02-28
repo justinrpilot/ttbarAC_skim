@@ -1,0 +1,10 @@
+universe = vanilla
+Executable=analyze.sh
+Should_Transfer_Files = YES
+WhenToTransferOutput  = ON_EXIT
+Transfer_Input_Files = treeMaker_fwlite.py,thisfile.txt,BEST_mlp.pkl,BEST_scaler.pkl
+notify_user = pilot@FNAL.GOV
+Output = condor_out_$(Process)_$(Cluster).stdout
+Error  = condor_out_$(Process)_$(Cluster).stderr
+Log    = condor_out_$(Process)_$(Cluster).log
+Notification    = Error
