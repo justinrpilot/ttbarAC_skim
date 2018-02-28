@@ -24,37 +24,23 @@ process.BESTProducer = cms.EDProducer('BESTProducer',
 
 )
 
-process.selectedMuons = cms.EDFilter('EtaPtMinCandViewSelector',
+process.selectedMuons = cms.EDFilter('PATMuonSelector',
     src = cms.InputTag('slimmedMuons'),
-    ptMin = cms.double(40.),
-    etaMin = cms.double(-2.4),
-    etaMax = cms.double(2.4)
+    cut = cms.string('pt > 40.0 && abs(eta) < 2.4')
 )
-
-process.selectedElectrons = cms.EDFilter('EtaPtMinCandViewSelector',
+process.selectedElectrons = cms.EDFilter('PATElectronSelector',
     src = cms.InputTag('slimmedElectrons'),
-    ptMin = cms.double(40.),
-    etaMin = cms.double(-2.4),
-    etaMax = cms.double(2.4)
+    cut = cms.string('pt > 40.0 && abs(eta) < 2.4')
 )
 
-process.selectedAK8Jets = cms.EDFilter('EtaPtMinCandViewSelector',
-    src = cms.InputTag('slimmedJetsAK8'),
-    ptMin = cms.double(350.),
-    etaMin = cms.double(-2.4),
-    etaMax = cms.double(2.4)
-)
-
-process.selectedAK4Jets = cms.EDFilter('EtaPtMinCandViewSelector',
+process.selectedAK4Jets = cms.EDFilter('PATJetSelector',
     src = cms.InputTag('slimmedJets'),
-    ptMin = cms.double(50.),
-    etaMin = cms.double(-2.4),
-    etaMax = cms.double(2.4)
+    cut = cms.string('pt > 50.0 && abs(eta) < 2.4')
 )
 
-process.selectedMET = cms.EDFilter('PtMinCandViewSelector',
+process.selectedMET = cms.EDFilter('PATMETSelector',
     src = cms.InputTag('slimmedMETs'),
-    ptMin = cms.double(-999.),
+    cut = cms.string('pt > -999.9'),
 )
 
 
@@ -63,10 +49,15 @@ process.out = cms.OutputModule("PoolOutputModule",
                                SelectEvents   = cms.untracked.PSet( SelectEvents = cms.vstring('p') ),
                                outputCommands = cms.untracked.vstring('drop *',
                                                                       'keep *_*BEST*_*_*',
-								      'keep *_*TriggerResults*_*_*',
-								      'keep *_*_*_*ttbarAC*'
-                                                                      #, 'keep *_goodPatJetsCATopTagPF_*_*'
-                                                                      #, 'keep recoPFJets_*_*_*'
+								      'keep *_*_*_*ttbarAC*',
+								      'drop *_*_*pfCand*_*',
+								      'drop *_*triggerResult*_*_*',
+                        					      'drop *_*_*genJets*_*',
+			                                              'drop *_*_*tagInfos*_*',
+			                                              'drop *_*_*caloTowers*_*'
+								      #, 'keep *_goodPatJetsCATopTagPF_*_*'
+                     
+			                                                 #, 'keep recoPFJets_*_*_*'
                                                                       ) 
                                )
 
@@ -76,7 +67,6 @@ process.outpath = cms.EndPath(process.out)
 process.p = cms.Path(process.BESTProducer*
 		     process.selectedMuons*
 		     process.selectedElectrons*
-	 	     process.selectedAK8Jets*
 		     process.selectedAK4Jets*
 		     process.selectedMET
 )
