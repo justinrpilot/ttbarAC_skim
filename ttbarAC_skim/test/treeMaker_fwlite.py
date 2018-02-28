@@ -301,7 +301,11 @@ for ifile in files:
 			event.getByLabel((nnLabels[i]), nnHandles[i])
 			products[nnLabels[i][1]] = nnHandles[i].product() 
 
-		ht_ak8 = 0.0	
+		ht_ak8 = 0.0
+
+		if len(jets) < 1:
+			continue
+	
 		for j in xrange(len(jets)):
 
 			nhf = jets[j].neutralHadronEnergy() / jets[j].energy()
@@ -321,8 +325,6 @@ for ifile in files:
                 	if not goodJet :
 				continue
 
-			if jets[j].pt() < 400:
-				continue
 
 
 

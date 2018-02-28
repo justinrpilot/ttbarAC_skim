@@ -16,7 +16,9 @@ config.Data.inputDataset = '/TT_TuneCUETP8M1_13TeV-powheg-pythia8/RunIISpring16M
 config.Data.splitting = 'FileBased'
 config.Data.unitsPerJob = 10
 config.Data.publication = False
-# This string is used to construct the output dataset name
+
+config.Data.outLFNDirBase = '/store/user/lpctlbsm/pilot/'
+
 
 config.section_("Site")
 config.Site.storageSite = 'T3_US_FNALLPC'
