@@ -135,7 +135,8 @@ electronsHandle = Handle("std::vector<pat::Electron>")
 electronsLabel = ("selectedElectrons", "", "ttbarACskim")
 metLabel = ("selectedMET", "", "ttbarACskim")
 metHandle = Handle("std::vector<pat::MET>")
-
+genPLabel = ("selectedGenParticles", "", "ttbarACskim")
+genPHandle = Handle("std::vector<reco::GenParticle>")
 
 nnLabels = []
 nnLabels.append( ("BESTProducer", "FWmoment1H", "ttbarACskim") )
@@ -294,6 +295,15 @@ for ifile in files:
 		jets = jetsHandle.product()
 		event.getByLabel(AK4jetsLabel, AK4jetsHandle)
 		AK4jets = AK4jetsHandle.product()
+
+
+		event.getByLabel(genPLabel, genPHandle)
+		genParticles = genPHandle.product()
+
+		for particle in genParticles:
+			print particle.pdgId(), particle.pt()
+
+
 		
 		event.getByLabel(muonsLabel, muonsHandle)
 		event.getByLabel(electronsLabel, electronsHandle)
